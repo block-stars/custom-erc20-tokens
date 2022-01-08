@@ -1,9 +1,9 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const validator = require("solidity-validator");
-const ERC20_ARTIFACT = require("../artifacts/contracts/FixedSupplyERC.sol/FixedSupplyERC.json");
+const ERC20_ARTIFACT = require("../artifacts/contracts/FixedSupplyToken.sol/FixedSupplyToken.json");
 
-const tokenName = "FixedSupplyERC";
+const tokenName = "FixedSupplyToken";
 const tokenSymbol = "FIX";
 const initialSupply = 100000;
 let tokenContract;
@@ -20,7 +20,7 @@ beforeEach(async() => {
     tokenContract = await token.deploy(tokenName, tokenSymbol, initialSupply);
 });
 
-describe("Deployment", function() {
+describe("Deployment of FixedSupplyToken", function() {
     it("Should deploy the ERC20 contract", async function() {
         expect(tokenContract.address).to.not.be.undefined;
         expect(validator.isAddress(tokenContract.address)).to.be.true;

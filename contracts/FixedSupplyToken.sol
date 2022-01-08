@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract FixedSupplyERC is ERC20 {
+contract FixedSupplyToken is ERC20 {
     constructor(
         string memory name_,  
         string memory symbol_, 
