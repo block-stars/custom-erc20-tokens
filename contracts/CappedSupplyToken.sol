@@ -12,8 +12,9 @@ contract CappedSupplyToken is ERC20, ERC20Capped, ERC20Burnable, Ownable {
         string memory symbol_, 
         uint initialSupply_, 
         uint cap) 
-    ERC20Capped(cap)
-    ERC20(name_, symbol_) {
+        ERC20Capped(cap)
+        ERC20(name_, symbol_) {
+        require(initialSupply_ <= cap, "Initial supply must be less than cap");
         ERC20._mint(msg.sender, initialSupply_);
     }
 

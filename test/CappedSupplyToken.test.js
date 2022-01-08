@@ -10,6 +10,23 @@ const cap = 200000;
 let tokenContract;
 let owner, user1, user2;
 
+describe("Should handle incorrect initial supply", async() => {
+    const [owner] = await ethers.getSigners();
+    // create token contract instance
+    const token = new ethers.ContractFactory(
+        ERC20_ARTIFACT.abi,
+        ERC20_ARTIFACT.bytecode,
+        owner
+    );
+
+    it("should revert in inital supply is greater than the cap", async() => {
+        // deploy new token contract
+        await expect(
+            token.deploy(tokenName, tokenSymbol, 2000, 1000)
+        ).to.be.revertedWith("Initial supply must be less than cap");
+    });
+});
+
 beforeEach(async() => {
     [owner, user1, user2] = await ethers.getSigners();
     // create token contract instance
@@ -75,5 +92,18 @@ describe("It should manage the capped supply", function() {
         await expect(
             tokenContract.connect(owner.address).mint(owner.address, amount)
         ).to.be.revertedWith("ERC20Capped: cap exceeded");
+    });
+
+    it("Should error if initial supply is greater than token cap", async function() {
+        // create token contract instance
+        const token = new ethers.ContractFactory(
+            ERC20_ARTIFACT.abi,
+            ERC20_ARTIFACT.bytecode,
+            owner
+        );
+        // deploy new token contract
+        await expect(
+            token.deploy(tokenName, tokenSymbol, 2000, 1000)
+        ).to.be.revertedWith("Initial supply must be less than cap");
     });
 });
